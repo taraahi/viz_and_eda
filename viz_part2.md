@@ -143,3 +143,142 @@ weather_df %>%
     ## Warning: Removed 15 rows containing missing values (geom_point).
 
 ![](viz_part2_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+
+## Scales
+
+Start with the same plot; x and y scales
+
+``` r
+weather_df %>% 
+  ggplot(aes(x = tmin, y = tmax)) + 
+  geom_point(aes(color = name), alpha = .5) +
+  labs(
+    title = "Temp plot",
+    x = "Minimum daily temp (C)",
+    y = "Maximum daily temperature (C)",
+    caption = "Data from the rnoaa package; temps in 2017."
+  ) +
+  scale_x_continuous(
+    breaks = c(-15, 0, 15),
+    labels = c("-15 C", "0", "15")
+  )+
+  scale_y_continuous(
+    position = "right"
+  )
+```
+
+    ## Warning: Removed 15 rows containing missing values (geom_point).
+
+![](viz_part2_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+
+Look at color scales
+
+``` r
+weather_df %>% 
+  ggplot(aes(x = tmin, y = tmax)) + 
+  geom_point(aes(color = name), alpha = .5) +
+  labs(
+    title = "Temp plot",
+    x = "Minimum daily temp (C)",
+    y = "Maximum daily temperature (C)",
+    caption = "Data from the rnoaa package; temps in 2017."
+  ) +
+  scale_color_hue(
+    name = "Location",
+    h = c(100, 300)
+  )
+```
+
+    ## Warning: Removed 15 rows containing missing values (geom_point).
+
+![](viz_part2_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+
+\#\#\#Virdis
+
+``` r
+ggp_temp_plot = 
+  weather_df %>% 
+  ggplot(aes(x = tmin, y = tmax)) + 
+  geom_point(aes(color = name), alpha = .5) + 
+  labs(
+    title = "Temperature plot",
+    x = "Minimum daily temperature (C)",
+    y = "Maxiumum daily temperature (C)",
+    caption = "Data from the rnoaa package"
+  ) + 
+  viridis::scale_color_viridis(
+    name = "Location", 
+    discrete = TRUE
+  )
+
+ggp_temp_plot
+```
+
+    ## Warning: Removed 15 rows containing missing values (geom_point).
+
+![](viz_part2_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+
+## Themes
+
+Shift the legend
+
+``` r
+ggp_temp_plot + 
+  theme(legend.position = "bottom")
+```
+
+    ## Warning: Removed 15 rows containing missing values (geom_point).
+
+![](viz_part2_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
+
+Change overall theme
+
+``` r
+ggp_temp_plot + 
+  theme_bw() + 
+  theme(legend.position = "bottom")
+```
+
+    ## Warning: Removed 15 rows containing missing values (geom_point).
+
+![](viz_part2_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
+
+``` r
+ggp_temp_plot + 
+  theme_minimal() + 
+  theme(legend.position = "bottom")
+```
+
+    ## Warning: Removed 15 rows containing missing values (geom_point).
+
+![](viz_part2_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+
+``` r
+ggp_temp_plot + 
+  theme_classic() + 
+  theme(legend.position = "bottom")
+```
+
+    ## Warning: Removed 15 rows containing missing values (geom_point).
+
+![](viz_part2_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
+
+``` r
+ggp_temp_plot + 
+  ggthemes::theme_economist() + 
+  theme(legend.position = "bottom")
+```
+
+    ## Warning: Removed 15 rows containing missing values (geom_point).
+
+![](viz_part2_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+
+``` r
+ggp_temp_plot + 
+  ggthemes::theme_excel() + 
+  theme(legend.position = "bottom")
+```
+
+    ## Warning: Removed 15 rows containing missing values (geom_point).
+
+![](viz_part2_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
