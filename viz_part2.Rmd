@@ -1,5 +1,5 @@
 ---
-title: "ggplot 1"
+title: "viz 2"
 output: github_document
 ---
 Load in a dataset that we'll use often.
@@ -301,7 +301,7 @@ weather_df %>%
     values_to = "temperatures"
   ) %>% 
   ggplot(aes(x = temperatures, fill = observation)) +
-  geom_density(alpha=0.5)
+  geom_density(alpha = 0.5)
 ```
 
 Separate graphs:
@@ -314,6 +314,44 @@ weather_df %>%
     values_to = "temperatures"
   ) %>% 
   ggplot(aes(x = temperatures, fill = observation)) +
-  geom_density(alpha=0.5) +
+  geom_density(alpha = 0.5) +
 facet_grid(. ~ name)
 ```
+
+
+
+## Revisit the pups, bonus example
+
+```{r}
+pup_data = 
+  read_csv("./data_import_examples/FAS_pups.csv") %>% 
+  janitor::clean_names() %>% 
+  mutate(sex = recode(sex, `1` = "male", `2` = "female")) 
+
+litter_data = 
+  read_csv("./data_import_examples/FAS_litters.csv", col_types = "ccddiiii") %>%
+  janitor::clean_names() %>%
+  separate(group, into = c("dose", "day_of_tx"), sep = 3)
+
+fas_data = left_join(pup_data, litter_data, by = "litter_number") 
+
+fas_data %>% 
+  select(sex, dose, day_of_tx, pd_ears:pd_walk) %>% 
+  pivot_longer(
+    pd_ears:pd_walk,
+    names_to = "outcome", 
+    values_to = "pn_day") %>% 
+  drop_na() %>% 
+  mutate(outcome = forcats::fct_reorder(outcome, pn_day, median)) %>% 
+  ggplot(aes(x = dose, y = pn_day)) + 
+  geom_violin() + 
+  facet_grid(day_of_tx ~ outcome)
+```
+
+
+
+
+
+
+
+
