@@ -282,3 +282,47 @@ ggp_temp_plot +
     ## Warning: Removed 15 rows containing missing values (geom_point).
 
 ![](viz_part2_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
+
+## Setting options
+
+**Copy paste this into every RMD doc!!**
+
+``` r
+library(tidyverse)
+
+knitr::opts_chunk$set(
+  fig.width = 6,
+  fig.asp = .6,
+  out.width = "90%"
+)
+
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+
+options(
+  ggplot2.continuous.clour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+
+sclae_colour_discrete = scale_color_viridis_d()
+scale_fill_discrete = scale_fill_viridis_d
+```
+
+## Data args in `geom`
+
+``` r
+central_park = 
+  weather_df %>% 
+  filter(name == "CentralPark_NY")
+
+waikiki = 
+  weather_df %>% 
+  filter(name == "Waikiki_HA")
+
+ggplot(data = waikiki, aes(x = date, y = tmax, color = name)) + 
+  geom_point() + 
+  geom_line(data = central_park)
+```
+
+    ## Warning: Removed 3 rows containing missing values (geom_point).
+
+![](viz_part2_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
