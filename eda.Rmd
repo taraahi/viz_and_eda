@@ -144,5 +144,94 @@ Use `janitor::tabyl` OR `groupby` and then `summarize` with some `pivoting`.
 
 NOT `table`
 
+## General Summaries
+
+So many possibilities
+
+```{r}
+weather_df %>%
+  group_by(month) %>%
+  summarize(
+    mean_tmax = mean(tmax),
+    mean_prec = mean(prcp, na.rm = TRUE),
+    median_tmax = median(tmax),
+    sd_tmax = sd(tmax))
+```
+
+If you want to get rid of missing values:
+
+```{r}
+weather_df %>% 
+  group_by(month) %>% 
+  summarize(
+    mean_tmax = mean(tmax, na.rm = TRUE),
+    mean_prcp = mean(prcp, na.rm = TRUE),
+    median_tmin = median(tmin, na.rm = TRUE)
+  )
+```
+
+Group by more than one variable:
+
+```{r}
+weather_df %>%
+  group_by(name, month) %>%
+  summarize(
+    mean_tmax = mean(tmax),
+    median_tmax = median(tmax))
+```
+
+Summarize across columns using the same summary:
+
+```{r}
+weather_df %>%
+  group_by(name, month) %>%
+  summarize(across(tmin:prcp, mean))
+```
+
+This is a dataframe! Can go into ggplot.
+
+```{r}
+weather_df %>%
+  group_by(name, month) %>%
+  summarize(mean_tmax = mean(tmax)) %>%
+  ggplot(aes(x = month, y = mean_tmax, color = name)) + 
+    geom_point() + geom_line() + 
+    theme(legend.position = "bottom")
+```
+
+another plot
+
+```{r}
+weather_df %>% 
+  ggplot(aes(x = date, y = tmax, color = name))+
+  geom_point()+
+  geom_line()
+```
+
+
+If I want to summarize many columns (mean tmax, tmin, etc)...
+
+```{r}
+weather_df %>% 
+  group_by(name, month) %>% 
+  summarize(across(prcp:tmin, mean))
+```
+Summarize across precipitatoin to tmin, get the means^
+
+
+More readable format:
+
+```{r}
+weather_df %>%
+  group_by(name, month) %>%
+  summarize(mean_tmax = mean(tmax)) %>% 
+  pivot_wider(
+    names_from = name,
+    values_from = mean_tmax) %>% 
+  knitr::kable(digits = 1)
+```
+
+Rounded to nearest 1 digit after decimal.
+
 
 
