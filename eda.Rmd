@@ -110,5 +110,39 @@ weather_df %>%
 ```
 
 
+## A digression on 2x2 tables
+
+```{r}
+weather_df %>% 
+  mutate(
+    cold = case_when(
+      tmax <  5 ~ "cold",
+      tmax >= 5 ~ "not_cold",
+      TRUE      ~ ""
+  )) %>% 
+  filter(name != "Waikiki_HA") %>% 
+  group_by(name, cold) %>% 
+  summarize(count = n())
+```
+
+Case when says given this condition, use this output level.
+
+To make the table:
+
+```{r}
+weather_df %>% 
+  mutate(cold = case_when(
+    tmax <  5 ~ "cold",
+    tmax >= 5 ~ "not_cold",
+    TRUE     ~ ""
+  )) %>% 
+  filter(name != "Waikiki_HA") %>% 
+  janitor::tabyl(name, cold)
+```
+
+Use `janitor::tabyl` OR `groupby` and then `summarize` with some `pivoting`.
+
+NOT `table`
+
 
 
