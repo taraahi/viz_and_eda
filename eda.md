@@ -45,3 +45,51 @@ weather_df =
     ## file min/max dates: 1999-09-01 / 2021-09-30
 
 ## `group by`
+
+``` r
+weather_df %>%
+  group_by(name, month)
+```
+
+    ## # A tibble: 1,095 × 7
+    ## # Groups:   name, month [36]
+    ##    name           id          date        prcp  tmax  tmin month     
+    ##    <chr>          <chr>       <date>     <dbl> <dbl> <dbl> <date>    
+    ##  1 CentralPark_NY USW00094728 2017-01-01     0   8.9   4.4 2017-01-01
+    ##  2 CentralPark_NY USW00094728 2017-01-02    53   5     2.8 2017-01-01
+    ##  3 CentralPark_NY USW00094728 2017-01-03   147   6.1   3.9 2017-01-01
+    ##  4 CentralPark_NY USW00094728 2017-01-04     0  11.1   1.1 2017-01-01
+    ##  5 CentralPark_NY USW00094728 2017-01-05     0   1.1  -2.7 2017-01-01
+    ##  6 CentralPark_NY USW00094728 2017-01-06    13   0.6  -3.8 2017-01-01
+    ##  7 CentralPark_NY USW00094728 2017-01-07    81  -3.2  -6.6 2017-01-01
+    ##  8 CentralPark_NY USW00094728 2017-01-08     0  -3.8  -8.8 2017-01-01
+    ##  9 CentralPark_NY USW00094728 2017-01-09     0  -4.9  -9.9 2017-01-01
+    ## 10 CentralPark_NY USW00094728 2017-01-10     0   7.8  -6   2017-01-01
+    ## # … with 1,085 more rows
+
+Note that there’s a line now that says there’s a group.
+
+Get rid of it with `ungroup`, can do one variable at a time
+
+``` r
+weather_df %>%
+  group_by(name, month) %>% 
+ungroup()
+```
+
+    ## # A tibble: 1,095 × 7
+    ##    name           id          date        prcp  tmax  tmin month     
+    ##    <chr>          <chr>       <date>     <dbl> <dbl> <dbl> <date>    
+    ##  1 CentralPark_NY USW00094728 2017-01-01     0   8.9   4.4 2017-01-01
+    ##  2 CentralPark_NY USW00094728 2017-01-02    53   5     2.8 2017-01-01
+    ##  3 CentralPark_NY USW00094728 2017-01-03   147   6.1   3.9 2017-01-01
+    ##  4 CentralPark_NY USW00094728 2017-01-04     0  11.1   1.1 2017-01-01
+    ##  5 CentralPark_NY USW00094728 2017-01-05     0   1.1  -2.7 2017-01-01
+    ##  6 CentralPark_NY USW00094728 2017-01-06    13   0.6  -3.8 2017-01-01
+    ##  7 CentralPark_NY USW00094728 2017-01-07    81  -3.2  -6.6 2017-01-01
+    ##  8 CentralPark_NY USW00094728 2017-01-08     0  -3.8  -8.8 2017-01-01
+    ##  9 CentralPark_NY USW00094728 2017-01-09     0  -4.9  -9.9 2017-01-01
+    ## 10 CentralPark_NY USW00094728 2017-01-10     0   7.8  -6   2017-01-01
+    ## # … with 1,085 more rows
+
+Can also ungroup by one variable at a time.

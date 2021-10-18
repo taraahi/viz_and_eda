@@ -46,3 +46,18 @@ weather_df =
 ```
 
 ## `group by`
+
+```{r}
+weather_df %>%
+  group_by(name, month)
+```
+Note that there's a line now that says there's a group.
+
+Get rid of it with `ungroup`, can do one variable at a time
+```{r}
+weather_df %>%
+  group_by(name, month) %>% 
+ungroup()
+```
+Can also ungroup by one variable at a time.
+
