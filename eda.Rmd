@@ -61,3 +61,54 @@ ungroup()
 ```
 Can also ungroup by one variable at a time.
 
+## counting things
+
+```{r}
+weather_df %>%
+  group_by(month) %>%
+  summarize(n_obs = n())
+```
+
+There are 93 in Jan, 84 in Feb, etc.
+
+Can pipe this right into ggplot!
+
+```{r}
+weather_df %>%
+  group_by(name, month) %>%
+  summarize(n_obs = n())
+```
+
+31 days in Jan, 28 in Feb, etc.^
+
+Can also use `count()`
+
+```{r}
+weather_df %>%
+  count(month, name = "n_obs")
+```
+
+
+**NEVER** use base R's `table`
+
+```{r, eval=FALSE}
+weather_df %>%
+  pull(month) %>% 
+  table()
+```
+
+This isn't a dataframe! 
+
+Other helpful counters
+
+```{r}
+weather_df %>%
+  group_by(month) %>%
+  summarize(
+    n_obs = n(),
+    n_days = n_distinct(date))
+```
+
+
+
+
